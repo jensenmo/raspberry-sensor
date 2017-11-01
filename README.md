@@ -47,17 +47,6 @@ Optionally - generate SSH identity for e.g. forked github project:
 ```
 ssh-keygen -t rsa -b 2048
 ```
-
-Prepare the Raspberry PI with Adafruit Python library for DHT sensor:
-```
-mkdir -p ~/dev/git
-cd  ~/dev/git
-wget https://github.com/adafruit/Adafruit_Python_DHT/archive/master.zip
-unzip master.zip
-cd Adafruit_Python_DHT-master/
-sudo python setup.py install
-```
-
 Install AWS CLI and AWS IoT device SDK:
 ```
 pip install --user awscli
@@ -65,9 +54,19 @@ pip install --user AWSIoTPythonSDK
 pip install --user pipenv
 ```
 
-Add user Python path to the bottom of $HOME/.profile:
+Add user Python path to the bottom of $HOME/.profile (make sure to exit the shell and login in again to make changes take effect):
 ```
 PATH=$HOME/.local/bin:$PATH ; export PATH
+```
+
+Prepare the Raspberry PI with Adafruit Python library for the [DHT sensors](https://github.com/adafruit/Adafruit_Python_DHT/):
+```
+mkdir -p ~/dev/git
+cd  ~/dev/git
+wget https://github.com/adafruit/Adafruit_Python_DHT/archive/master.zip
+unzip master.zip
+cd Adafruit_Python_DHT-master/
+sudo python setup.py install
 ```
 
 Register the thing and download connect_device_package.zip from your local AWS region (eu-west-1 used as example below): https://eu-west-1.console.aws.amazon.com/iotv2/home?region=eu-west-1#/software
