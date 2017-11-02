@@ -106,3 +106,25 @@ sudo sysctl -a | grep fs
 # fs.protected_symlinks = 1
 ```
 
+Create and configure a Systems Manager SSM service role (you will need an AWS IAM user with sufficient privileges and credentials in the shell):
+```
+cd $HOME/dev/git/raspberry-sensor
+aws iam create-role --role-name SSMServiceRole --assume-role-policy-document file://policy/SSMService-Trust.json
+aws iam attach-role-policy --role-name SSMServiceRole --policy-arn arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM 
+```
+
+Create a Managed-Instance Activation:
+```
+aws ssm create-activation --default-instance-name raspberry --iam-role RunCommandServiceRole --registration-limit 10 --region eu-west-1 --output json
+```
+
+Install AWS SSM Agent:
+```
+mkdir /tmp/ssm
+sudo curl https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/debian_arm/amazon-ssm-agent.deb -o /tmp/ssm/amazon-ssm-agent.deb
+sudo dpkg -i /tmp/ssm/amazon-ssm-agent.deb
+sudo service amazon-ssm-agent stop
+
+```
+
+
