@@ -26,13 +26,16 @@ sudo dphys-swapfile setup
 sudo dphys-swapfile swapon
 ```
 
-Update Raspbian OS:
+Update Raspbian OS and install requisite and recommended packages:
 ```
 sudo apt-get update
 sudo apt-get install build-essential python-dev
-sudo apt install lsof
-sudo apt install xrdp
-sudo apt install libssl-dev
+sudo apt-get install lsof
+sudo apt-get install xrdp
+sudo apt-get install libssl-dev
+
+sudo apt-get install cmake
+sudo apt-get install sqlite3
 
 sudo reboot
 ```
@@ -41,6 +44,11 @@ Upgrade firmware:
 ```
 sudo apt-get install rpi-update
 sudo rpi-update
+```
+
+Optionally - install XRDP for remote desktop:
+```
+sudo apt-get install xrdp
 ```
 
 Optionally - generate SSH identity for e.g. forked github project:
@@ -78,5 +86,23 @@ chmod ug+x start.sh
 sudo /bin/bash
 ./start.sh
 # Go to the AWS Console and see messages flowing through
+```
+
+[Prepare for AWS GreenGrass](http://docs.aws.amazon.com/greengrass/latest/developerguide/prepare-raspi.html):
+```
+sudo adduser --system ggc_user
+sudo addgroup --system ggc_group
+
+cat <-EOF >>/etc/sysctl.d/98-rpi.conf
+fs.protected_hardlinks = 1
+fs.protected_symlinks = 1
+EOF
+
+sudo reboot
+
+sudo sysctl -a | grep fs
+# Should show:
+# fs.protected_hardlinks = 1
+# fs.protected_symlinks = 1
 ```
 
